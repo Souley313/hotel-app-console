@@ -1,5 +1,7 @@
 var cl = console.log;
 
+var service = require("./service.js");
+
 // récupération du module `readline`
 var readline = require('readline');
 
@@ -15,7 +17,8 @@ function start() {
 
     rl.question("", function (saisie) {
         switch(saisie){
-            case '1' :cl("1. Lister les clients");
+            case '1' :cl(">> Listes des clients");
+                        service.listerclients();
                 break;
             case '99' :cl("Aurevoir!");
                 break;
@@ -24,5 +27,5 @@ function start() {
     });
 }
 
-// la fonction start est accessible en dehors du module
+// la fonction menu est accessible en dehors du module
 exports.menu = start;

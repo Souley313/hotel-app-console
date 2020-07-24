@@ -4,17 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Souley313/hotel-app-console.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Souleymane THIAM",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Souley313/hotel-app-console/issues"
   },
-  "homepage": "https://github.com/Souley313/hotel-app-console#readme"
+  "homepage": "https://github.com/Souley313/hotel-app-console#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
 }
