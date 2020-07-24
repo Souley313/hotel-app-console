@@ -1,4 +1,4 @@
-console.log('** Administration Hotel **');
+console.log('** Application Hotel **');
 
 var presentation = require("./presentation.js");
 
