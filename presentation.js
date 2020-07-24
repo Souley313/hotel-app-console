@@ -17,24 +17,29 @@ function start() {
     cl("3. Rechercher un client par nom");
     cl("4. Vérifier la disponibilité d'une chambre");
     cl("99. Sortir");
-
     rl.question("", function (saisie) {
+        
         switch(saisie){
             case '1' :cl(">> Listes des clients");
                         service.listerclients();
+                        start();
                 break;
             case '2' :cl(">> Ajouter un client");
+                     start();
                 break;
             case '3' :cl(">> Rechercher un client par nom");
+            start();
                 break;
             case '4' :cl(">> Vérifier la disponibilité d'une chambre");
+            start();
                 break;
-            case '99' :cl("Aurevoir!");
+            case '99' :cl("Aurevoir!"); 
+                rl.close();
                 break;
         }
-        rl.close();
     });
 }
 
 // la fonction menu est accessible en dehors du module
 exports.menu = start;
+
