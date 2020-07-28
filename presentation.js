@@ -1,45 +1,92 @@
-var cl = console.log;
+// Rôle => communiquer avec l'utilisateur
+var service = require('./service.js');
 
-var service = require("./service.js");
-
-// récupération du module `readline`
 var readline = require('readline');
 
-// création d'un objet `rl` permettant de récupérer la saisie utilisateur
 var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
-    });
+});
 
-function start() {
-    cl("1. Lister les clients");
-    cl("2. Ajouter un client");
-    cl("3. Rechercher un client par nom");
-    cl("4. Vérifier la disponibilité d'une chambre");
-    cl("99. Sortir");
-    rl.question("", function (saisie) {
-        
-        switch(saisie){
-            case '1' :cl(">> Listes des clients");
-                        service.listerclients();
-                        start();
-                break;
-            case '2' :cl(">> Ajouter un client");
-                     start();
-                break;
-            case '3' :cl(">> Rechercher un client par nom");
-            start();
-                break;
-            case '4' :cl(">> Vérifier la disponibilité d'une chambre");
-            start();
-                break;
-            case '99' :cl("Aurevoir!"); 
-                rl.close();
-                break;
-        }
+var config = {
+    1: { libelle: ' Lister les clients', fn: menuListerClients },
+    2: { fn: menuCreerClient, libelle: 'Creer' },
+    99: { fn: menuQuitter, libelle: 'Quitter' }
+};
+
+var start = function () {
+
+    console.log('** Administration Hotel **');
+
+    for (var prop in config) {
+        console.log(prop + ". " + config[prop].libelle);
+    }
+
+
+    rl.question('Quelle action choisissez-vous ? : ', function (saisie) {
+
+        choix = parseInt(saisie);
+        config[choix].fn(rl);
     });
 }
 
-// la fonction menu est accessible en dehors du module
-exports.menu = start;
+function menuQuitter(rl) {
+    console.log('Au revoir');
+    rl.close();
+}
 
+function menuCreerClient(rl) {
+
+
+    rl.question('nom:', function (nom) {
+        rl.question('prenoms:', function (prenoms) {
+
+            service.creerClient(nom, prenoms, function (clientCree) {
+
+                console.log('Client créé', clientCree);
+                start();
+
+            }, function (err) {
+                console.log('Oops', err);
+                start();
+            })
+        })
+    })
+
+}
+
+function menuListerClients(rl) {
+    console.log('>> Liste des clients');
+
+    //1
+
+    // code synchrone
+    // var tabClients = service.listerClients();
+    // ici listerClients est totalement terminé
+    // comme en Java
+
+    // code asynchrone avec fonction de rappel
+    //  service.listerClients(function(tabClients) {
+    // résultat
+    //});
+    // => service.listerClients() ne peut pas te répondre tout de suite
+    // => il lui faut du temps...
+    // => il te propose de donner ton numéro de téléphone
+    // => il va te rappeler quand c'est prêt
+
+    // => le numéro de téléphone c'est la fonction
+
+    service.listerClient(function (tabClients) {
+
+        // 3
+        var clientsAffichage = tabClients.map(function (client) {
+            return client.nom + ' ' + client.prenoms;
+        }).join('\n');
+
+        console.log(clientsAffichage);
+        start();
+    }, function (error) {
+        console.log('Erreur ...', error);
+    });
+}
+exports.start = start;

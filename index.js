@@ -1,6 +1,3 @@
-console.log('** Application Hotel **');
-
-var presentation = require("./presentation.js");
-
-presentation.menu();
+var presentation = require('./presentation.js');
+presentation.start();
 

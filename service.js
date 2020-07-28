@@ -1,19 +1,49 @@
+// Rôle => gérer les données et communiquer avec l'extérieur (Web API)
+
 // importation de la librairie request
 // recherche par défaut dans le répertoire node_modules
 var request = require('request');
 
-function lClient() {
-    request('https://souleymane-hotel-web-api.herokuapp.com/clients?start=0&size=100', {    
-        json: true 
-    }, function handleResponse(err, res, body) {
-        if (err) { 
-            return console.log('Erreur', err); 
+
+function listerClient(callbackSuccess, callbackError) {
+
+    // Web API => définir une ressource => en déduire les URLs
+    // GET /clients
+    // GET /clients/ID
+    // POST /clients
+
+    request('https://khalil-hotel-web-api.herokuapp.com/clients/pagination?start=0&size=30', 
+    { json: true }, 
+    function (err, res, tabClients) {
+        if (err && callbackError) { 
+            callbackError(err); 
         }
-        // body contient toutes les données récupérées, on extrait le nom et le prénom
-        body.forEach(cl =>console.log(cl.nom, cl.prenoms));
-        //console.log('Ok', body);
+
+        callbackSuccess(tabClients);
+
     });
 }
 
-// la fonction listerclients est accessible en dehors du module
-exports.listerclients = lClient;
+function creerClient(nom, prenoms, callbackSuccess, callbackError) {
+
+    request({
+       url: 'https://souleymane-hotel-web-api.herokuapp.com/clients',
+       //json: true,
+       method: "POST",
+       headers: {
+        'Content-Type': 'application/json'
+      },
+       body: `{"nom": "${nom}", "prenoms": "${prenoms}"}`
+     }, 
+    function (err, res, unClient) {
+        if (err && callbackError) { 
+            callbackError(err); 
+        }
+
+        callbackSuccess(unClient);
+
+    });
+}
+
+exports.listerClient = listerClient;
+exports.creerClient = creerClient;
