@@ -12,7 +12,7 @@ function listerClient(callbackSuccess, callbackError) {
     // GET /clients/ID
     // POST /clients
 
-    request('https:/souleymane-hotel-web-api.herokuapp.com/clients/pagination?start=0&size=30', 
+    request('https://souleymane-hotel-web-api.herokuapp.com/clients?start=0&size=100', 
     { json: true }, 
     function (err, res, tabClients) {
         if (err && callbackError) { 
@@ -45,5 +45,6 @@ function creerClient(nom, prenoms, callbackSuccess, callbackError) {
     });
 }
 
-exports.listerClient = listerClient;
-exports.creerClient = creerClient;
+module.exports = {listerClient, creerClient};
+//exports.listerClient = listerClient;
+//exports.creerClient = creerClient;
