@@ -12,7 +12,7 @@ function listerClient(callbackSuccess, callbackError) {
     // GET /clients/ID
     // POST /clients
 
-    request('https://khalil-hotel-web-api.herokuapp.com/clients/pagination?start=0&size=30', 
+    request('https:/souleymane-hotel-web-api.herokuapp.com/clients/pagination?start=0&size=30', 
     { json: true }, 
     function (err, res, tabClients) {
         if (err && callbackError) { 
